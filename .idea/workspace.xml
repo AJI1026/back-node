@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="" />
+    <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/user/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/user.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +20,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2HwlIMX8ZjU8SKd3G4Q6L145yfF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -27,6 +38,7 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/aji1026/Desktop/Git/ajiClient&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -48,7 +60,9 @@
       <workItem from="1669361423887" duration="3000" />
       <workItem from="1669361437497" duration="14030000" />
       <workItem from="1669395206574" duration="3857000" />
-      <workItem from="1669634138639" duration="15781000" />
+      <workItem from="1669634138639" duration="17121000" />
+      <workItem from="1669738118720" duration="3208000" />
+      <workItem from="1669773765558" duration="19037000" />
     </task>
     <servers />
   </component>

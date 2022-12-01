@@ -6,20 +6,44 @@ const {User} = require('../../models/user')
 // 引入jwt
 const jwt = require('jsonwebtoken')
 const SECRET = 'ewgfvwergvwsgw5454gsrgvsvsd'
+// 引入svg-captcha
+const svgCaptcha = require('svg-captcha')
 
 // 注册接口
 router.post('/register',async(req, res) =>{
-    const user = await User.create({
-        username:req.query.username,
-        password:req.query.password
-    })
-    // 返回出去
-    res.send(user)
+    // 在数据库库中录入数据
+    const {username, password} = req.body
+    if(username && password) {
+        const user = await User.create({
+            username:req.body.username,
+            password:req.body.password
+        },(err, user) => {
+            if(err) {
+                res.send({
+                    status:'0',
+                    message: '注册失败'
+                })
+            }else {
+                // 返回出去
+                res.send({
+                    status: '1',
+                    message: '注册成功',
+                    data: user
+                })
+            }
+        })
+    } else {
+        res.send({
+            status: '422',
+            message: '请求格式错误'
+        })
+    }
 })
+
 // 登录接口
 router.post('/login',async(req,res) =>{
     const user = await User.findOne({
-        username:req.query.username
+        username:req.body.username
     })
     // 检查是否存在用户名
     if(!user) {
@@ -29,7 +53,7 @@ router.post('/login',async(req,res) =>{
     }
     // 检查密码是否正确
     const isPasswordValid = require('bcryptjs').compareSync(
-        req.query.password,
+        req.body.password,
         user.password
     )
     if(!isPasswordValid){
@@ -47,6 +71,31 @@ router.post('/login',async(req,res) =>{
         token
     })
 })
+
+// 验证码接口
+router.get('/codeImg', function (req,res) {
+    const codeConfig = {
+        size: 4, // 验证码长度
+        ignoreChars: '0o1i', // 验证码排除0o1i
+        noise: 5, // 干扰线条的数量
+        width: 95,
+        height: 40,
+        color: true, // 开启文字颜色
+        background: '#cc9966', // 背景色
+        inverse: false,
+        fontSize: 40,
+    }
+    const captcha = svgCaptcha.create(codeConfig)
+    // 存session用于验证接口获取文字码
+    // req.session.captcha = captcha.text.toLowerCase()
+    // console.log(req.session.captcha)
+    const codeData = {
+        captchaImg: captcha.data
+    }
+    res.type('svg')
+    res.status(200).send(codeData)
+})
+
 // 若用户需要进行一些操作需要先检验是否有token
 const auth = async(req,res) => {
     const raw = String(req.headers.authorization).split(' ').pop();
