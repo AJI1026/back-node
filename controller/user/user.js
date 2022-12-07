@@ -20,22 +20,28 @@ router.post('/register',async(req, res) =>{
         },(err, user) => {
             if(err) {
                 res.send({
-                    status:'0',
-                    message: '注册失败'
+                    status:'422',
+                    message: '注册失败，请检查格式是否正确'
                 })
             }else {
+                // 生成一个一小时的令牌
+                const token = jwt.sign({
+                    id:String(user._id)
+                },SECRET,{expiresIn: '1h'})
+                // 生成token
                 // 返回出去
                 res.send({
-                    status: '1',
+                    status: '200',
                     message: '注册成功',
-                    data: user
+                    data: user,
+                    token
                 })
             }
         })
     } else {
         res.send({
             status: '422',
-            message: '请求格式错误'
+            message: '语义错误'
         })
     }
 })
@@ -68,7 +74,9 @@ router.post('/login',async(req,res) =>{
     // 生成token
     res.send({
         user,
-        token
+        token,
+        status: '200',
+        message: '登录成功'
     })
 })
 
@@ -90,7 +98,8 @@ router.get('/codeImg', function (req,res) {
     // req.session.captcha = captcha.text.toLowerCase()
     // console.log(req.session.captcha)
     const codeData = {
-        captchaImg: captcha.data
+        captchaImg: captcha.data,
+        captchaId: captcha.text
     }
     res.type('svg')
     res.status(200).send(codeData)
@@ -103,4 +112,5 @@ const auth = async(req,res) => {
     const {id} = jwt.verify(raw,SECRET)
     req.user = await User.findById(id)
 }
+
 module.exports = router
