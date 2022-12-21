@@ -2,12 +2,15 @@
 const express = require('express')
 const router = express.Router()
 // 引入登录用户模型
-const {User} = require('../../models/user')
-// 引入jwt
-const jwt = require('jsonwebtoken')
-const SECRET = 'ewgfvwergvwsgw5454gsrgvsvsd'
+const { User } = require('../../models/user')
+const { Book } = require('../../models/book')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
+// 读文件
+const fs = require('fs')
+// 实现token, 需要的插件
+const jwt = require('jsonwebtoken')
+const SECRET = 'aji'
 
 // 注册接口
 router.post('/register',async(req, res) =>{
@@ -49,7 +52,7 @@ router.post('/register',async(req, res) =>{
 // 登录接口
 router.post('/login',async(req,res) =>{
     const user = await User.findOne({
-        username:req.body.username
+        username:req.body.username,
     })
     // 检查是否存在用户名
     if(!user) {
@@ -69,7 +72,8 @@ router.post('/login',async(req,res) =>{
     }
     // 生成一个一小时的令牌
     const token = jwt.sign({
-        id:String(user._id)
+        name:String(user.username),
+        _id:String(user._id)
     },SECRET,{expiresIn: '1h'})
     // 生成token
     res.send({
@@ -105,12 +109,29 @@ router.get('/codeImg', function (req,res) {
     res.status(200).send(codeData)
 })
 
-// 若用户需要进行一些操作需要先检验是否有token
-const auth = async(req,res) => {
-    const raw = String(req.headers.authorization).split(' ').pop();
-    // 验证
-    const {id} = jwt.verify(raw,SECRET)
-    req.user = await User.findById(id)
-}
+// 查询书籍简介列表
+router.get('/simpleBookList', async (req, res) => {
+    fs.readFile('./controller/user/books.json', 'utf8', (err, data) => {
+        if(err) {
+            console.log(err)
+        } else {
+            res.send({status: 200, message: '获取图书成功', data: JSON.parse(data)})
+        }
+    })
+})
+
+// 查询知识分类书籍列表
+router.get('/knowledgeBook', async (req, res) => {
+    const knowledgeBook = await Book.find({
+        // 查找IT书籍
+        id: 1
+    })
+    res.send({
+        knowledgeBook,
+        status: '200',
+        message: '知识类书籍获取成功'
+    })
+})
+
 
 module.exports = router
