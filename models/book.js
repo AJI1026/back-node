@@ -27,6 +27,12 @@ const BookSchema = new mongoose.Schema({
             bookPrice: {
                 type: String,
             },
+            CollectingStatus: {
+                type: Number,
+            },
+            bookStatus: {
+                type: Number,
+            },
             detailImg: []
         }
     ]

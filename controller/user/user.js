@@ -133,5 +133,26 @@ router.get('/knowledgeBook', async (req, res) => {
     })
 })
 
+// 收藏知识分类书籍
+router.put('/knowledgeBook/status', async (req, res) => {
+    await Book.findOneAndUpdate({
+        bookName: req.body.bookName
+    }, {$set:{'books.0.CollectingStatus': 1}})
+    res.send({
+        status: '200',
+        message: '收藏状态改变'
+    })
+})
+
+// 取消收藏知识分类书籍
+router.put('/knowledgeBook/cancelCollect', async (req, res) => {
+    await Book.findOneAndUpdate({
+        bookName: req.body.bookName,
+    }, {$set:{'books.0.CollectingStatus': 0}})
+    res.send({
+        status: '200',
+        message: '收藏状态改变'
+    })
+})
 
 module.exports = router
