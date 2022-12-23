@@ -124,7 +124,7 @@ router.get('/simpleBookList', async (req, res) => {
 router.get('/knowledgeBook', async (req, res) => {
     const knowledgeBook = await Book.find({
         // 查找IT书籍
-        id: 1
+        bookType: 'IT'
     })
     res.send({
         knowledgeBook,
@@ -133,26 +133,17 @@ router.get('/knowledgeBook', async (req, res) => {
     })
 })
 
-// 收藏知识分类书籍
-router.put('/knowledgeBook/status', async (req, res) => {
-    await Book.findOneAndUpdate({
-        bookName: req.body.bookName
-    }, {$set:{'books.0.CollectingStatus': 1}})
-    res.send({
-        status: '200',
-        message: '收藏状态改变'
-    })
-})
-
-// 取消收藏知识分类书籍
-router.put('/knowledgeBook/cancelCollect', async (req, res) => {
-    await Book.findOneAndUpdate({
+// 收藏书籍
+router.post('/knowledgeBook/status', async (req, res) => {
+    const data = await Book.findOneAndUpdate({
         bookName: req.body.bookName,
-    }, {$set:{'books.0.CollectingStatus': 0}})
-    res.send({
-        status: '200',
-        message: '收藏状态改变'
-    })
+        bookAuthor: req.body.bookAuthor
+    },{$set: {'CollectingStatus': !req.body.CollectingStatus}})
+    if(data !== null) {
+        res.send({ data, status: '200', message: '操作成功'})
+    } else {
+        res.send({ data, status: '401', message: '请求数据格式错误'})
+    }
 })
 
 module.exports = router

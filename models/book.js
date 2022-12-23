@@ -7,35 +7,31 @@ const BookSchema = new mongoose.Schema({
     bookType: {
         type: String,
     },
-    books: [
-        {
-            CoverImg: {
-                type: String,
-            },
-            bookName: {
-                type: String,
-            },
-            bookAuthor: {
-                type: String,
-            },
-            authorIntroduction: {
-                type: String,
-            },
-            bookIntroduction: {
-                type: String,
-            },
-            bookPrice: {
-                type: String,
-            },
-            CollectingStatus: {
-                type: Number,
-            },
-            bookStatus: {
-                type: Number,
-            },
-            detailImg: []
-        }
-    ]
+    CoverImg: {
+        type: String,
+    },
+    bookName: {
+        type: String,
+    },
+    bookAuthor: {
+        type: String,
+    },
+    authorIntroduction: {
+        type: String,
+    },
+    bookIntroduction: {
+        type: String,
+    },
+    bookPrice: {
+        type: String,
+    },
+    CollectingStatus: {
+        type: Number,
+    },
+    bookStatus: {
+        type: Number,
+    },
+    detailImg: []
 }, {versionKey: false})
 const Book = mongoose.model('book', BookSchema)
 module.exports = { Book }
