@@ -120,14 +120,42 @@ router.get('/simpleBookList', async (req, res) => {
     })
 })
 
-// 查询知识分类书籍列表
+let pages; // 分页总页数，设置全局变量，跳转页面时获取总页数
+// 查询知识分类书籍列表分页
 router.get('/knowledgeBook', async (req, res) => {
+    let array = []; // 存储当前页 数据的数组
+    let pageDataSize = 6; // 当前页 数据量
+    let pageNum = (req.query.pageNum ? req.query.pageNum : 1); // 设置默认页数为第一页
+    let prePage = pageNum - 1; // 上一页
+    let nextPage = 1*pageNum + 1; // 下一页
+    if(prePage < 1) {
+        prePage = pageNum
+    } else if (nextPage > pages) {
+        nextPage = pageNum
+    }
     const knowledgeBook = await Book.find({
         // 查找IT书籍
         bookType: 'IT'
     })
+    let dataCount = knowledgeBook.length; // 数据总数
+    pages = Math.ceil(dataCount / pageDataSize); // 最后一页数据不足时为一页
+    let num = (pageNum - 1) * pageDataSize; // 跳过数据数量
+    let forNum = (dataCount - num) >= 6 ? 6 : (dataCount - num);
+    // 把即将跳转的页面的数据存到一个数组里
+    for(let i = 0; i < forNum; i++) {
+        array[i] = knowledgeBook[num + i]
+    }
+    // 分页按钮数据
+    let pagesData = {
+        dataCount: 1*dataCount,
+        pages: pages,
+        pageNum: pageNum,
+        prePage: prePage,
+        nextPage: nextPage
+    }
     res.send({
-        knowledgeBook,
+        list: array,
+        pagesData: pagesData,
         status: '200',
         message: '知识类书籍获取成功'
     })
