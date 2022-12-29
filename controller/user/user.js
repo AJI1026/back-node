@@ -4,6 +4,7 @@ const router = express.Router()
 // 引入登录用户模型
 const { User } = require('../../models/user')
 const { Book } = require('../../models/book')
+const { Swiper } = require('../../models/swiper')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
 // 读文件
@@ -70,15 +71,22 @@ router.post('/login',async(req,res) =>{
             message:"密码无效"
         })
     }
+
     // 生成一个一小时的令牌
     const token = jwt.sign({
         name:String(user.username),
         _id:String(user._id)
     },SECRET,{expiresIn: '1h'})
-    // 生成token
+    // 生成一个活跃用户的刷新用的token，这里用jwt实现一个双token验证
+    const refresh_token = jwt.sign({
+        name:String(user.username),
+        _id:String(user._id)
+    },SECRET,{expiresIn: '48h'})
+
     res.send({
         user,
         token,
+        refresh_token,
         status: '200',
         message: '登录成功'
     })
@@ -171,6 +179,18 @@ router.post('/knowledgeBook/status', async (req, res) => {
         res.send({ data, status: '200', message: '操作成功'})
     } else {
         res.send({ data, status: '401', message: '请求数据格式错误'})
+    }
+})
+
+// 分类页轮播图
+router.get('/sort/swiper', async(req,res) => {
+    const swiperData = await Swiper.findOne({
+        swiperType: req.query.swiperType
+    })
+    if(swiperData) {
+        res.send({ swiperData, status: '200', message: '数据获取成功'})
+    } else {
+        res.send({ status: '401', message: '数据获取失败'})
     }
 })
 
