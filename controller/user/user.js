@@ -4,7 +4,7 @@ const router = express.Router()
 // 引入登录用户模型
 const { User } = require('../../models/user')
 const { Book } = require('../../models/book')
-const { Swiper } = require('../../models/swiper')
+const { Task } = require('../../models/task')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
 // 读文件
@@ -182,15 +182,52 @@ router.post('/knowledgeBook/status', async (req, res) => {
     }
 })
 
-// 分类页轮播图
-router.get('/sort/swiper', async(req,res) => {
-    const swiperData = await Swiper.findOne({
-        swiperType: req.query.swiperType
-    })
-    if(swiperData) {
-        res.send({ swiperData, status: '200', message: '数据获取成功'})
+// 任务列表数据查询
+router.get('/sort/task', async (req,res) => {
+    const TaskData = await Task.find({})
+    if(TaskData) {
+        res.send({ TaskData, status: '200', message: '查询成功'})
     } else {
-        res.send({ status: '401', message: '数据获取失败'})
+        res.send({ TaskData, status: '401', message: '查询失败'})
+    }
+
+})
+
+// 任务列表数据修改
+router.post('/sort/modify', async (req, res) => {
+    const data = await Task.find({
+        id: req.body.id
+    })
+    await Task.findOneAndUpdate({
+        id: req.body.id
+    }, {$set:{"task": req.body.task, "goal": req.body.goal}})
+    res.send({ data, status: '200', message: '修改成功'})
+})
+
+// 任务列表数据删除
+router.delete('/sort/delete', async (req,res) => {
+    await Task.findOneAndDelete({
+        id: req.body.id
+    })
+    res.send({ status: '200', message: '删除成功'})
+})
+
+// 任务列表数据添加
+router.put('/sort/add', async (req, res) => {
+    const have = await Task.findOne({
+        task: req.body.task,
+        goal: req.body.goal,
+    })
+    if(have) {
+        res.send({ status: '401', message: '任务添加失败'})
+    } else {
+        await Task.insertMany({
+            id: req.body.id,
+            task: req.body.task,
+            goal: req.body.goal,
+            createTime: req.body.createTime
+        })
+        res.send({ status: '200', message: '添加成功'})
     }
 })
 
