@@ -184,7 +184,9 @@ router.post('/knowledgeBook/status', async (req, res) => {
 
 // 任务列表数据查询
 router.get('/sort/task', async (req,res) => {
-    const TaskData = await Task.find({})
+    const TaskData = await Task.find({
+        taskStatus: false
+    })
     if(TaskData) {
         res.send({ TaskData, status: '200', message: '查询成功'})
     } else {
@@ -225,10 +227,39 @@ router.put('/sort/add', async (req, res) => {
             id: req.body.id,
             task: req.body.task,
             goal: req.body.goal,
-            createTime: req.body.createTime
+            createTime: req.body.createTime,
+            taskStatus: false
         })
         res.send({ status: '200', message: '添加成功'})
     }
+})
+
+// 已完成的任务列表
+router.get('/sort/completed', async (req, res) => {
+    const completedData = await Task.find({
+        taskStatus: true
+    })
+    res.send({ completedData, status: '200', message: '获取成功'})
+})
+
+// 改变任务完成状态
+router.post('/sort/completedStatus', async (req,res) => {
+    await Task.findOneAndUpdate({
+        id: req.body.id
+    },{$set: {taskStatus: req.body.taskStatus}})
+    res.send({ status: '200', message: '操作成功'})
+})
+
+// 删除已完成任务
+router.delete('/sort/completedDelete', async (req, res) => {
+    await Task.findOneAndDelete({
+        id: req.body.id,
+        task: req.body.task,
+        goal: req.body.goal,
+        createTime: req.body.createTime,
+        taskStatus: req.body.taskStatus
+    })
+    res.send({ status: '200', message: '操作成功'})
 })
 
 module.exports = router

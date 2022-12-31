@@ -2,7 +2,8 @@
 const mongoose = require("./connectdb")
 const TaskSchema = new mongoose.Schema({
     id: {
-        type: Number
+        type: Number,
+        unique: true
     },
     task: {
         type: String,
@@ -14,6 +15,10 @@ const TaskSchema = new mongoose.Schema({
     },
     createTime: {
         type: String,
+        required: true
+    },
+    taskStatus: {
+        type: Boolean,
         required: true
     }
 }, {versionKey: false})
