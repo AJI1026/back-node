@@ -1,7 +1,7 @@
 // 建立分类书籍模型
 const mongoose = require("./connectdb")
 const BookSchema = new mongoose.Schema({
-    id: {
+    _id: {
         type: Number,
     },
     bookType: {
