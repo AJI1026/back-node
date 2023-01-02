@@ -5,6 +5,7 @@ const router = express.Router()
 const { User } = require('../../models/user')
 const { Book } = require('../../models/book')
 const { Task } = require('../../models/task')
+const { Good } = require('../../models/good')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
 // 读文件
@@ -261,5 +262,32 @@ router.delete('/sort/completedDelete', async (req, res) => {
     })
     res.send({ status: '200', message: '操作成功'})
 })
+
+// 购物车加商品
+router.post('/cart/addGoods', async (req,res) => {
+    const data = await Good.findOne({
+        bookName: req.body.bookName,
+    })
+    if(data) {
+        await Good.findOneAndUpdate({
+            bookName: req.body.bookName,
+        }, {$set: {goodsQuantity: req.body.goodsQuantity}})
+    } else {
+        await Good.insertMany({
+            bookName: req.body.bookName,
+            CoverImg: req.body.CoverImg,
+            bookPrice: req.body.bookPrice,
+            goodsQuantity: req.body.goodsQuantity
+        })
+    }
+    res.send({ status: '200', message: '添加成功'})
+})
+
+// 起始的购物车列表数据
+router.get('/cart/goodsList', async (req,res) => {
+    const goodsListData = await Good.find({})
+    res.send({ goodsListData, status: '200', message: '数据获取成功'})
+})
+
 
 module.exports = router
