@@ -289,5 +289,27 @@ router.get('/cart/goodsList', async (req,res) => {
     res.send({ goodsListData, status: '200', message: '数据获取成功'})
 })
 
+// 改变商品数量
+router.post('/cart/quantityChange', async (req, res) => {
+    const data = await Good.find({
+        goodsQuantity: 1
+    })
+    if(data) {
+        await Good.findOneAndDelete({
+            bookName: req.body.bookName
+        })
+    } else {
+        await Good.findOneAndUpdate({
+            bookName: req.body.bookName,
+        }, {$set: {goodsQuantity: req.body.goodsQuantity}})
+    }
+    res.send({ status: '200', message: '改变成功'})
+})
+
+// 清空购物车数据
+router.delete('/cart/deleteAll', async(req, res) => {
+    await Good.deleteMany({})
+    res.send({ status: '200', message: '操作成功'})
+})
 
 module.exports = router
