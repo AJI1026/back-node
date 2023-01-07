@@ -6,6 +6,7 @@ const { User } = require('../../models/user')
 const { Book } = require('../../models/book')
 const { Task } = require('../../models/task')
 const { Good } = require('../../models/good')
+const { Address } = require('../../models/address')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
 // 读文件
@@ -310,6 +311,55 @@ router.post('/cart/quantityChange', async (req, res) => {
 router.delete('/cart/deleteAll', async(req, res) => {
     await Good.deleteMany({})
     res.send({ status: '200', message: '操作成功'})
+})
+
+// 地址数据渲染
+router.get('/address/addressList', async (req,res) => {
+    const addressListData = await Address.find({})
+    res.send({ addressListData, status: '200', message: '查询成功'})
+})
+
+// 新增地址
+router.put('/address/newAddress', async (req,res) => {
+    await Address.insertMany({
+        city: req.body.city,
+        address: req.body.address,
+        defaultAddress: req.body.defaultAddress,
+        name: req.body.name,
+        mobilePhone: req.body.mobilePhone,
+        remark: req.body.remark,
+    })
+    res.send({ status: '200', message: '添加成功'})
+})
+
+// 移除地址
+router.delete('/address/deleteAddress', async (req,res) => {
+    await Address.findOneAndDelete({
+        addressId: req.body.addressId
+    })
+    res.send({ status: '200', message: '删除成功'})
+})
+
+// 修改地址
+router.post('/address/changeAddress', async (req,res) => {
+    await Address.findOneAndUpdate({
+        addressId: req.body.addressId
+    }, {$set: {
+            city: req.body.city,
+            address: req.body.address,
+            defaultAddress: req.body.defaultAddress,
+            name: req.body.name,
+            mobilePhone: req.body.mobilePhone,
+            remark: req.body.remark,}})
+    res.send({ status: '200', message: '修改成功'})
+})
+
+// 查看地址
+router.get('/address/address', async (req,res) => {
+    await Address.findOne({
+        addressId: req.body.addressId
+    })
+    res.send({ status: '200', message: '查询成功'})
 })
 
 module.exports = router
