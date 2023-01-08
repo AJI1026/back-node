@@ -7,6 +7,7 @@ const { Book } = require('../../models/book')
 const { Task } = require('../../models/task')
 const { Good } = require('../../models/good')
 const { Address } = require('../../models/address')
+const { Step } = require('../../models/step')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
 // 读文件
@@ -53,7 +54,7 @@ router.post('/register',async(req, res) =>{
 })
 
 // 登录接口
-router.post('/login',async(req,res) =>{
+router.post('/login',async(req, res) =>{
     const user = await User.findOne({
         username:req.body.username,
     })
@@ -95,7 +96,7 @@ router.post('/login',async(req,res) =>{
 })
 
 // 验证码接口
-router.get('/codeImg', function (req,res) {
+router.get('/codeImg', function (req, res) {
     const codeConfig = {
         size: 4, // 验证码长度
         ignoreChars: '0o1i', // 验证码排除0o1i
@@ -185,7 +186,7 @@ router.post('/knowledgeBook/status', async (req, res) => {
 })
 
 // 任务列表数据查询
-router.get('/sort/task', async (req,res) => {
+router.get('/sort/task', async (req, res) => {
     const TaskData = await Task.find({
         taskStatus: false
     })
@@ -209,7 +210,7 @@ router.post('/sort/modify', async (req, res) => {
 })
 
 // 任务列表数据删除
-router.delete('/sort/delete', async (req,res) => {
+router.delete('/sort/delete', async (req, res) => {
     await Task.findOneAndDelete({
         id: req.body.id
     })
@@ -245,7 +246,7 @@ router.get('/sort/completed', async (req, res) => {
 })
 
 // 改变任务完成状态
-router.post('/sort/completedStatus', async (req,res) => {
+router.post('/sort/completedStatus', async (req, res) => {
     await Task.findOneAndUpdate({
         id: req.body.id
     },{$set: {taskStatus: req.body.taskStatus}})
@@ -265,7 +266,7 @@ router.delete('/sort/completedDelete', async (req, res) => {
 })
 
 // 购物车加商品
-router.post('/cart/addGoods', async (req,res) => {
+router.post('/cart/addGoods', async (req, res) => {
     const data = await Good.findOne({
         bookName: req.body.bookName,
     })
@@ -285,7 +286,7 @@ router.post('/cart/addGoods', async (req,res) => {
 })
 
 // 起始的购物车列表数据
-router.get('/cart/goodsList', async (req,res) => {
+router.get('/cart/goodsList', async (req, res) => {
     const goodsListData = await Good.find({})
     res.send({ goodsListData, status: '200', message: '数据获取成功'})
 })
@@ -308,40 +309,50 @@ router.post('/cart/quantityChange', async (req, res) => {
 })
 
 // 清空购物车数据
-router.delete('/cart/deleteAll', async(req, res) => {
+router.delete('/cart/deleteAll', async (req, res) => {
     await Good.deleteMany({})
     res.send({ status: '200', message: '操作成功'})
 })
 
 // 地址数据渲染
-router.get('/address/addressList', async (req,res) => {
+router.get('/address/addressList', async (req, res) => {
     const addressListData = await Address.find({})
     res.send({ addressListData, status: '200', message: '查询成功'})
 })
 
 // 新增地址
-router.put('/address/newAddress', async (req,res) => {
-    await Address.insertMany({
-        city: req.body.city,
-        address: req.body.address,
-        defaultAddress: req.body.defaultAddress,
-        name: req.body.name,
-        mobilePhone: req.body.mobilePhone,
-        remark: req.body.remark,
-    })
+router.put('/address/newAddress', async (req, res) => {
+    const data = await Address.findOneAndUpdate({
+        defaultAddress: true
+    }, {$set: {defaultAddress: false}})
+    if(data) {
+        await Address.insertMany({
+            city: req.body.city,
+            address: req.body.address,
+            defaultAddress: req.body.defaultAddress,
+            name: req.body.name,
+            mobilePhone: req.body.mobilePhone,
+            remark: req.body.remark,
+        })
+    }
     res.send({ status: '200', message: '添加成功'})
 })
 
 // 移除地址
-router.delete('/address/deleteAddress', async (req,res) => {
+router.delete('/address/deleteAddress', async (req, res) => {
     await Address.findOneAndDelete({
-        addressId: req.body.addressId
+        addressId: req.query.addressId
     })
     res.send({ status: '200', message: '删除成功'})
 })
 
 // 修改地址
-router.post('/address/changeAddress', async (req,res) => {
+router.post('/address/changeAddress', async (req, res) => {
+    if(req.body.defaultAddress === true) {
+        await Address.findOneAndUpdate({
+            defaultAddress: true
+        }, {$set: {defaultAddress: false}})
+    }
     await Address.findOneAndUpdate({
         addressId: req.body.addressId
     }, {$set: {
@@ -354,12 +365,35 @@ router.post('/address/changeAddress', async (req,res) => {
     res.send({ status: '200', message: '修改成功'})
 })
 
-// 查看地址
-router.get('/address/address', async (req,res) => {
-    await Address.findOne({
-        addressId: req.body.addressId
+// 移除商品
+router.delete('/goods/delete', async (req, res) => {
+    await Good.findOneAndDelete({
+        bookName: req.body.bookName
     })
-    res.send({ status: '200', message: '查询成功'})
+    res.send({status: '200', message: '操作成功'})
+})
+
+// 获取step值
+router.get('/order/step', async (req, res) => {
+    const stepData = await Step.find({})
+    res.send({stepData, status: '200', message: '获取成功'})
+})
+
+// 增加步骤step的值
+router.post('/order/addStep', async (req, res) => {
+    await Step.findOneAndUpdate({
+        step: req.query.step
+    },{$set: {step: Number(req.query.step) + 1}})
+    res.send({status: '200', message: '操作成功'})
+})
+
+// 减少步骤step的值
+router.post('/order/decreaseStep', async (req, res) => {
+    await Step.findOneAndUpdate({
+        step: req.query.step
+    },{$set: {step: Number(req.query.step) - 1}})
+    res.send({status: '200', message: '操作成功'})
 })
 
 module.exports = router
+

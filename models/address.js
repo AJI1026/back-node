@@ -1,4 +1,4 @@
-// 建立购物车内物品模型
+// 建立地址模型
 const mongoose = require("./connectdb")
 let counter = 1
 let CountedId = {type: Number, default: () => counter++}
