@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "alipay-sdk": "^3.2.0",
+    "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
@@ -17,6 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.3",
     "nodemon": "^2.0.20",
+    "request": "^2.88.2",
     "svg-captcha": "^1.4.0"
   }
 }

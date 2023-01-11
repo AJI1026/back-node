@@ -1,13 +1,19 @@
 // 引入express模块
 const express = require('express')
 const router = express.Router()
-// 引入登录用户模型
+// 引入各数据模型
 const { User } = require('../../models/user')
 const { Book } = require('../../models/book')
 const { Task } = require('../../models/task')
 const { Good } = require('../../models/good')
 const { Address } = require('../../models/address')
 const { Step } = require('../../models/step')
+const { Order } = require('../../models/order')
+// 支付
+const alipaySdk = require('../../utils/alipayUtil')
+const AlipayFormData = require('alipay-sdk/lib/form').default
+const axios = require('axios')
+const request = require('request')
 // 引入svg-captcha
 const svgCaptcha = require('svg-captcha')
 // 读文件
@@ -393,6 +399,131 @@ router.post('/order/decreaseStep', async (req, res) => {
         step: req.query.step
     },{$set: {step: Number(req.query.step) - 1}})
     res.send({status: '200', message: '操作成功'})
+})
+
+// 生成订单
+router.put('/order/orderInformation', async (req, res) => {
+    await Order.insertMany({
+        orderId: req.body.orderId,
+        orderGoods: req.body.orderGoods,
+        orderStatus: 0
+    })
+    res.send({ status: '200', message: '操作成功'})
+})
+
+// 支付包沙盒支付
+router.post('/order/pcPay', async (req, res, next) => {
+    // * 添加购物车支付支付宝 */
+    // 调用 setMethod 并传入 get，会返回可以跳转到支付页面的 url
+    const formData = new AlipayFormData();
+    formData.setMethod('get');
+    // 通过 addField 增加参数
+    // 在用户支付完成之后，支付宝服务器会根据传入的 notify_url，以 POST 请求的形式将支付结果作为参数通知到商户系统。
+    formData.addField('returnUrl', 'http://localhost:8080/#/cart/completed'); // 支付成功回调地址，必须为可以直接访问的地址，不能带参数
+    formData.addField('bizContent', {
+        outTradeNo: req.body.orderId, // 商户订单号,64个字符以内、可包含字母、数字、下划线,且不能重复
+        productCode: 'FAST_INSTANT_TRADE_PAY', // 销售产品码，与支付宝签约的产品码名称,仅支持FAST_INSTANT_TRADE_PAY
+        totalAmount: 0.01, // 订单总金额，单位为元，精确到小数点后两位
+        subject: '商品', // 订单标题
+        body: '商品详情', // 订单描述
+        timeout_express: '60m', // 超时时间
+    });
+    // 如果需要支付后跳转到商户界面，可以增加属性"returnUrl"
+    const result =  alipaySdk.exec(  // result 为可以跳转到支付链接的 url
+        'alipay.trade.page.pay', // 统一收单下单并支付页面接口
+        {}, // api 请求的参数（包含“公共请求参数”和“业务参数”）
+        { formData: formData },
+    );
+    result.then((resp) => {
+        res.send({
+            message: '成功',
+            status: 200,
+            'result': resp,
+        })
+    })
+})
+
+// 查询支付宝的数据
+router.post('/order/payJudge', async (req, res) => {
+    let out_trade_no = req.body.out_trade_no
+    let trade_no = req.body.trade_no
+    // 对接支付宝
+    const formData = new AlipayFormData();
+    formData.setMethod('get');
+    formData.addField('bizContent', {
+        out_trade_no,
+        trade_no
+    });
+    const result = alipaySdk.exec(
+        'alipay.trade.query',
+        {},
+        {formData: formData},
+    );
+    result.then(resData => {
+        axios({
+            url: resData,
+            method: 'GET'
+        }).then(data => {
+            let r = data.data.alipay_trade_query_response
+            if (r.code === '10000') {
+                switch (r.trade_status) {
+                    case 'WAIT_BUYER_PAY':
+                        res.send({
+                            success: true,
+                            orderStatus: 0,
+                            code: 200,
+                            msg: '支付宝有交易记录，没付款'
+                        })
+                        break;
+                    case 'TRADE_FINISHED':
+                        res.send({
+                            success: true,
+                            orderStatus: 4,
+                            code: 200,
+                            msg: '交易完成，不可以退款'
+                        })
+                        break;
+                    case 'TRADE_SUCCESS':
+                        res.send({
+                            success: true,
+                            orderStatus: 2,
+                            code: 200,
+                            msg: '交易完成，可以退款'
+                        })
+                        break;
+                    case 'TRADE_CLOSED':
+                        res.send({
+                            success: true,
+                            orderStatus: 1,
+                            code: 200,
+                            msg: '交易关闭'
+                        })
+                        break;
+                }
+            }
+        }).catch(err => {
+            res.json({
+                msg: '查询失败',
+                err
+            })
+        })
+    })
+})
+
+// 修改订单，设置对应的支付宝订单号与订单状态
+router.post('/order/status', async (req, res) => {
+    await Order.findOneAndUpdate({
+        orderId: req.body.orderId
+    },{$set: {orderStatus: req.body.orderStatus, tradeNo: req.body.tradeNo}})
+    res.send({
+        status: 200,
+        message: '操作成功'
+    })
+})
+
+// 清空商品列表数据
+router.delete('/order/deleteGoods', async (req, res) => {
+    await Good.deleteMany({})
 })
 
 module.exports = router

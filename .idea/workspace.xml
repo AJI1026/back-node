@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/models/order.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/alipayUtil.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/user/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/book.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/good.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/good.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/step.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/step.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +105,10 @@
       <workItem from="1672917870634" duration="718000" />
       <workItem from="1672928415930" duration="588000" />
       <workItem from="1672982764439" duration="644000" />
-      <workItem from="1673065877601" duration="24830000" />
+      <workItem from="1673065877601" duration="45401000" />
+      <workItem from="1673420680726" duration="1391000" />
+      <workItem from="1673424288243" duration="373000" />
+      <workItem from="1673425312237" duration="13214000" />
     </task>
     <servers />
   </component>
