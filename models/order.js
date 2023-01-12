@@ -15,9 +15,8 @@ const OrderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    tradeNo: {
+    alipayNo: {
         type: Number,
-        unique: true
     }
 },{versionKey: false})
 const Order = mongoose.model('order', OrderSchema)

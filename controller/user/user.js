@@ -406,8 +406,17 @@ router.put('/order/orderInformation', async (req, res) => {
     await Order.insertMany({
         orderId: req.body.orderId,
         orderGoods: req.body.orderGoods,
-        orderStatus: 0
+        orderStatus: 0,
+        alipayNo: 0
     })
+    res.send({ status: '200', message: '操作成功'})
+})
+
+// 付款页面修改订单数据
+router.post('/order/orderInformationUpdate', async (req, res) => {
+    await Order.findOneAndUpdate({
+        orderId: req.body.orderId
+    }, {$set: {orderGoods: req.body.orderGoods}})
     res.send({ status: '200', message: '操作成功'})
 })
 
@@ -514,7 +523,7 @@ router.post('/order/payJudge', async (req, res) => {
 router.post('/order/status', async (req, res) => {
     await Order.findOneAndUpdate({
         orderId: req.body.orderId
-    },{$set: {orderStatus: req.body.orderStatus, tradeNo: req.body.tradeNo}})
+    },{$set: {orderStatus: req.body.orderStatus, alipayNo: req.body.alipayNo}})
     res.send({
         status: 200,
         message: '操作成功'
@@ -524,7 +533,12 @@ router.post('/order/status', async (req, res) => {
 // 清空商品列表数据
 router.delete('/order/deleteGoods', async (req, res) => {
     await Good.deleteMany({})
+    res.send({
+        status: 200,
+        message: '操作成功'
+    })
 })
+
 
 module.exports = router
 
