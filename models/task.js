@@ -7,19 +7,15 @@ const TaskSchema = new mongoose.Schema({
     },
     task: {
         type: String,
-        required: true
     },
     goal: {
         type: String,
-        required: true
     },
     createTime: {
         type: String,
-        required: true
     },
     taskStatus: {
         type: Boolean,
-        required: true
     }
 }, {versionKey: false})
 const Task = mongoose.model('task', TaskSchema)

@@ -4,7 +4,12 @@
     <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/address.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/address.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/book.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/good.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/good.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/order.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/step.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/step.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/task.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/task.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +54,16 @@
       <recent name="$PROJECT_DIR$/controller/book" />
       <recent name="$PROJECT_DIR$/controller" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="user.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/controller/user/user.js" working-dir="$PROJECT_DIR$/controller/user">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.user.js" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -104,6 +119,7 @@
       <workItem from="1673425312237" duration="13214000" />
       <workItem from="1673455996433" duration="10324000" />
       <workItem from="1673502996840" duration="7607000" />
+      <workItem from="1673590298907" duration="20131000" />
     </task>
     <servers />
   </component>

@@ -405,6 +405,10 @@ router.post('/order/decreaseStep', async (req, res) => {
 router.put('/order/orderInformation', async (req, res) => {
     await Order.insertMany({
         orderId: req.body.orderId,
+        orderAddressee: req.body.orderAddressee,
+        orderAddress: req.body.orderAddress,
+        orderMobilePhone: req.body.orderMobilePhone,
+        orderRemark: req.body.orderRemark,
         orderGoods: req.body.orderGoods,
         orderStatus: 0,
         alipayNo: 0
@@ -539,6 +543,60 @@ router.delete('/order/deleteGoods', async (req, res) => {
     })
 })
 
+// 历史订单-所有
+router.get('/order/all', async (req, res) => {
+    const allData = await Order.find({})
+    res.send({allData, status: 200, message: '查询成功'})
+})
+
+// 历史订单-已取消的订单
+router.get('/order/cancel', async (req, res) => {
+    const cancelData = await Order.find({
+        orderStatus: 1
+    })
+    res.send({cancelData, status: 200, message: '查询成功'})
+})
+
+// 历史订单-未付款的订单
+router.get('/order/unPaid', async (req, res) => {
+    const unPaidData = await Order.find({
+        orderStatus: 0
+    })
+    res.send({unPaidData, status: 200, message: '查询成功'})
+})
+
+// 历史订单-正在配送的订单
+router.get('/order/delivering', async (req, res) => {
+    const deliveringData = await Order.find({
+        orderStatus: 3
+    })
+    res.send({deliveringData, status: 200, message: '查询成功'})
+})
+
+// 历史订单-已完成的订单
+router.get('/order/completed', async (req, res) => {
+    const completedData = await Order.find({
+        orderStatus: 4
+    })
+    res.send({completedData, status: 200, message: '查询成功'})
+})
+
+// 历史订单-已完成的订单
+router.get('/order/paid', async (req, res) => {
+    const paidData = await Order.find({
+        orderStatus: 2
+    })
+    res.send({paidData, status: 200, message: '查询成功'})
+})
+
+// 通过标签搜索数据
+router.post('/order/searchByTag', async (req, res) => {
+    const tagData = await Order.find({
+        orderRemark: {$in: [req.body.orderRemark]},
+        orderStatus: req.body.orderStatus
+    })
+    res.send({tagData, status: 200, message: '查询成功'})
+})
 
 module.exports = router
 

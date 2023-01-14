@@ -6,23 +6,18 @@ const AddressSchema = new mongoose.Schema({
     addressId: CountedId,
     city: {
         type: String,
-        required: true
     },
     address: {
         type: String,
-        required: true
     },
     defaultAddress: {
         type: Boolean,
-        required: true
     },
     name: {
         type: String,
-        required: true
     },
     mobilePhone: {
         type: Number,
-        required: true
     },
     remark: {
         type: Array,
