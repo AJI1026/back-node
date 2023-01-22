@@ -9,6 +9,7 @@ const { Good } = require('../../models/good')
 const { Address } = require('../../models/address')
 const { Step } = require('../../models/step')
 const { Order } = require('../../models/order')
+const { Note } = require('../../models/note')
 // 支付
 const alipaySdk = require('../../utils/alipayUtil')
 const AlipayFormData = require('alipay-sdk/lib/form').default
@@ -596,6 +597,23 @@ router.post('/order/searchByTag', async (req, res) => {
         orderStatus: req.body.orderStatus
     })
     res.send({tagData, status: 200, message: '查询成功'})
+})
+
+// 获取笔记
+router.get('/note/content', async (req, res) => {
+    const noteData = await Note.find({})
+    res.send({noteData, status: 200, message: '查询成功'})
+})
+
+// 上传笔记
+router.put('/note/new', async (req, res) => {
+    await Note.insertMany({
+        noteTag: req.body.noteTag,
+        noteContent: req.body.noteContent,
+        noteCoverImg: req.body.noteCoverImg,
+        noteCreateTime: req.body.noteCreateTime
+    })
+    res.send({ status: 200, message: '新建成功'})
 })
 
 module.exports = router
