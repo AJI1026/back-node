@@ -605,6 +605,14 @@ router.get('/note/content', async (req, res) => {
     res.send({noteData, status: 200, message: '查询成功'})
 })
 
+// 笔记详情
+router.post('/note/contentDetail', async (req, res) => {
+    const detailData = await Note.findOne({
+        noteId: req.query.noteId
+    })
+    res.send({ detailData, status: 200, message: '查询成功'})
+})
+
 // 上传笔记
 router.put('/note/new', async (req, res) => {
     await Note.insertMany({
