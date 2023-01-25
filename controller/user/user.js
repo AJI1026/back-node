@@ -607,6 +607,14 @@ router.get('/note/content', async (req, res) => {
     res.send({noteData, status: 200, message: '查询成功'})
 })
 
+// 笔记标签对应文章
+router.get('/note/tagFind', async (req, res) => {
+    const tagData = await Note.find({
+        noteTag: req.query.noteTag
+    })
+    res.send({ tagData, status: 200, message: '查询成功'})
+})
+
 // 笔记详情
 router.post('/note/contentDetail', async (req, res) => {
     const detailData = await Note.findOne({
