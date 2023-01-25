@@ -10,6 +10,7 @@ const { Address } = require('../../models/address')
 const { Step } = require('../../models/step')
 const { Order } = require('../../models/order')
 const { Note } = require('../../models/note')
+const { Commend } = require('../../models/commends')
 // 支付
 const alipaySdk = require('../../utils/alipayUtil')
 const AlipayFormData = require('alipay-sdk/lib/form').default
@@ -30,7 +31,8 @@ router.post('/register',async(req, res) =>{
     if(username && password) {
         const user = await User.create({
             username:req.body.username,
-            password:req.body.password
+            password:req.body.password,
+            userImg: 'https://w.wallhaven.cc/full/6d/wallhaven-6doz9w.jpg',
         },(err, user) => {
             if(err) {
                 res.send({
@@ -616,12 +618,39 @@ router.post('/note/contentDetail', async (req, res) => {
 // 上传笔记
 router.put('/note/new', async (req, res) => {
     await Note.insertMany({
+        noteReading: 0,
+        noteUserId: req.body.noteUserId,
         noteTag: req.body.noteTag,
         noteContent: req.body.noteContent,
         noteCoverImg: req.body.noteCoverImg,
-        noteCreateTime: req.body.noteCreateTime
+        noteCreateTime: req.body.noteCreateTime,
     })
     res.send({ status: 200, message: '新建成功'})
+})
+
+// 通过笔记数据内noteUserId查找用户名
+router.get('/note/user', async (req, res) => {
+    const who = await User.findOne({
+        userId: req.query.userId
+    })
+    res.send({ who, status: 200, message: '查询成功'})
+})
+
+// 加入评论数据
+router.put('/note/newCommend', async (req, res) => {
+    await Commend.insertMany({
+        myName: req.body.myName,
+        myImg: req.body.myImg,
+        myCommend: req.body.myCommend,
+        myCommendTime: req.body.myCommendTime,
+    })
+    res.send({ status: 200, message: '添加成功'})
+})
+
+// 获取评论数据
+router.get('/note/commend', async (req, res) => {
+    const commendData = await Commend.find({})
+    res.send({ commendData, status: 200, message: '获取成功'})
 })
 
 module.exports = router
