@@ -661,5 +661,16 @@ router.get('/note/commend', async (req, res) => {
     res.send({ commendData, status: 200, message: '获取成功'})
 })
 
+// 笔记阅读量
+router.post('/note/readingTimes', async (req, res) => {
+    const reading = await Note.findOne({
+        noteId: req.query.noteId
+    })
+    await Note.updateOne({
+        noteId: req.query.noteId
+    },{$set: {noteReading: reading.noteReading + 1}})
+    res.send({status: 200, message:'操作成功'})
+})
+
 module.exports = router
 
