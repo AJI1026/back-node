@@ -282,16 +282,28 @@ router.post('/cart/addGoods', async (req, res) => {
     if(data) {
         await Good.findOneAndUpdate({
             bookName: req.body.bookName,
-        }, {$set: {goodsQuantity: req.body.goodsQuantity}})
+        }, {$set: {goodsQuantity: data.goodsQuantity + 1}})
     } else {
         await Good.insertMany({
             bookName: req.body.bookName,
             CoverImg: req.body.CoverImg,
             bookPrice: req.body.bookPrice,
-            goodsQuantity: req.body.goodsQuantity
+            goodsQuantity: 1
         })
     }
     res.send({ status: '200', message: '添加成功'})
+})
+
+// 购物车查商品
+router.get('/cart/exist', async (req, res) => {
+    const data = await Good.findOne({
+        bookName: req.query.bookName,
+    })
+    if(data) {
+        res.send({ exist: 1, status:200, message:'有数据'})
+    } else {
+        res.send({ exist: 0, status:200, message:'没有数据'})
+    }
 })
 
 // 起始的购物车列表数据
@@ -302,19 +314,17 @@ router.get('/cart/goodsList', async (req, res) => {
 
 // 改变商品数量
 router.post('/cart/quantityChange', async (req, res) => {
-    const data = await Good.find({
-        goodsQuantity: 1
-    })
-    if(data) {
+    if(req.body.goodsQuantity <= 0) {
         await Good.findOneAndDelete({
-            bookName: req.body.bookName
+            bookName: req.body.bookName,
         })
+        res.send({ status: '200', message: '改变成功'})
     } else {
         await Good.findOneAndUpdate({
             bookName: req.body.bookName,
         }, {$set: {goodsQuantity: req.body.goodsQuantity}})
+        res.send({ status: '200', message: '改变成功'})
     }
-    res.send({ status: '200', message: '改变成功'})
 })
 
 // 清空购物车数据
