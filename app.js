@@ -2,6 +2,8 @@
 const express = require('express')
 // 创建app对象，通过语法express() 底层原理http模块的createServer
 const app = express()
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
 // 引入中间件
 const bodyParser = require('body-parser')
 // 请求体解析中间件
@@ -46,7 +48,30 @@ app.use(function (err, req, res, next) {
 })
 
 //启动服务器监听端口
-app.listen(3000,() => {
+// app.listen(3000,() => {
+//     console.log('http://localhost:3000')
+// })
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/index.html')
+})
+io.on('connection', function (socket) {
+    // 每一个连接上来的用户，都会分配一个socket
+    console.log("客户端有连接")
+
+    // 监听用户登录
+    socket.on('login', data => {
+        console.log('用户登录：', data)
+    })
+
+    // 给客户端发送消息
+    socket.emit("welcome", "欢迎连接socket🍻")
+
+    // socket实例会监听一个特殊函数，关闭连接的函数disconnect
+    socket.on('disconnect', function () {
+        console.log('用户关闭连接')
+    })
+})
+http.listen(3000, function () {
     console.log('http://localhost:3000')
 })
 
