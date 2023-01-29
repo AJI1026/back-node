@@ -57,10 +57,22 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket) {
     // 每一个连接上来的用户，都会分配一个socket
     console.log("客户端有连接")
-
     // 监听用户登录
-    socket.on('login', data => {
-        console.log('用户登录：', data)
+    socket.on('onSubmit', (data, callback) => {
+        // 遍历服务器连接对象
+        let isLogin = true;
+        // 这里因为版本原因不能直接用io.sockets.sockets去循环，需要用Object.keys
+        if(io.sockets.sockets.name === data.name) {
+            isLogin = false
+        }
+        if(isLogin) {
+            console.log('用户登录成功：', data);
+            io.sockets.sockets.name = data.name;
+            callback(true)
+        } else {
+            console.log('用户登录失败！：', data);
+            callback(false);
+        }
     })
 
     // 给客户端发送消息
