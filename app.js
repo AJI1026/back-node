@@ -57,6 +57,10 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket) {
     // 每一个连接上来的用户，都会分配一个socket
     console.log("客户端有连接")
+    let userList = [{
+        name:'默认群聊',
+        img:'https://w.wallhaven.cc/full/jx/wallhaven-jx3gxy.jpg'
+    }]
     // 监听用户登录
     socket.on('onSubmit', (data, callback) => {
         // 遍历服务器连接对象
@@ -67,11 +71,29 @@ io.on('connection', function (socket) {
         }
         if(isLogin) {
             console.log('用户登录成功：', data);
+            userList.push(data)
             io.sockets.sockets.name = data.name;
             callback(true)
+            io.emit('login', userList)
         } else {
             console.log('用户登录失败！：', data);
             callback(false);
+        }
+    })
+
+    // 监听群聊事件
+    socket.on('groupChat', data => {
+        // 发送给所有客户端，除了发送者（广播）
+        data.list.type = 'friend';
+        socket.broadcast.emit('updateChatMessageList', data)
+    })
+
+    // 监听私聊事件
+    socket.on('privateChat', data => {
+        // 找到对应的私聊对象
+        if(io.sockets.sockets.name === data.name) {
+            data.list.type = 'user'
+            io.to(socket.id).emit('updateChatMessageList', data)
         }
     })
 
@@ -80,7 +102,14 @@ io.on('connection', function (socket) {
 
     // socket实例会监听一个特殊函数，关闭连接的函数disconnect
     socket.on('disconnect', function () {
-        console.log('用户关闭连接')
+        // 用户离开后，从列表中删除
+        let index = userList.findIndex(i => i.name === io.sockets.sockets.name)
+        if(index) {
+            userList.splice(index, 1)
+            // 通知前端
+            io.emit('login', userList)
+        }
+        console.log(`用户：${io.sockets.sockets.name}，关闭连接`)
     })
 })
 http.listen(3000, function () {
