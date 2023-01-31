@@ -54,13 +54,13 @@ app.use(function (err, req, res, next) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 })
+let userList = [{
+    name:'默认群聊',
+    img:'https://w.wallhaven.cc/full/jx/wallhaven-jx3gxy.jpg'
+}] // 放在外面！！！，不然每次监听连接事件都会刷新没
 io.on('connection', function (socket) {
     // 每一个连接上来的用户，都会分配一个socket
     console.log("客户端有连接")
-    let userList = [{
-        name:'默认群聊',
-        img:'https://w.wallhaven.cc/full/jx/wallhaven-jx3gxy.jpg'
-    }]
     // 监听用户登录
     socket.on('onSubmit', (data, callback) => {
         // 遍历服务器连接对象
@@ -71,9 +71,10 @@ io.on('connection', function (socket) {
         }
         if(isLogin) {
             console.log('用户登录成功：', data);
-            userList.push(data)
+            userList.push(data);
+            console.log(userList)
             io.sockets.sockets.name = data.name;
-            callback(true)
+            callback(true);
             io.emit('login', userList)
         } else {
             console.log('用户登录失败！：', data);
@@ -84,15 +85,15 @@ io.on('connection', function (socket) {
     // 监听群聊事件
     socket.on('groupChat', data => {
         // 发送给所有客户端，除了发送者（广播）
-        data.list.type = 'friend';
+        data.type = 'friend';
         socket.broadcast.emit('updateChatMessageList', data)
     })
 
     // 监听私聊事件
     socket.on('privateChat', data => {
         // 找到对应的私聊对象
-        if(io.sockets.sockets.name === data.name) {
-            data.list.type = 'user'
+        if(io.sockets.sockets.name === data.receiver) {
+            data.type = 'user'
             io.to(socket.id).emit('updateChatMessageList', data)
         }
     })
