@@ -647,13 +647,11 @@ router.put('/note/new', async (req, res) => {
     res.send({ status: 200, message: '新建成功'})
 })
 //图片上传
-router.post(
-    "/upload",
-    multer({
+router.post("/upload", multer({
         //设置文件存储路径
         dest: "public/image",
-    }).array("file", 1),
-    function (req, res, next) {
+    }).array("file", 1), function (req, res, next)
+    {
         let files = req.files;
         let file = files[0];
         let fileInfo = {};
