@@ -20,6 +20,7 @@ const request = require('request')
 const svgCaptcha = require('svg-captcha')
 // 读文件
 const fs = require('fs')
+const multer = require('multer')
 // 实现token, 需要的插件
 const jwt = require('jsonwebtoken')
 const SECRET = 'aji'
@@ -645,6 +646,31 @@ router.put('/note/new', async (req, res) => {
     })
     res.send({ status: 200, message: '新建成功'})
 })
+//图片上传
+router.post(
+    "/upload",
+    multer({
+        //设置文件存储路径
+        dest: "public/image",
+    }).array("file", 1),
+    function (req, res, next) {
+        let files = req.files;
+        let file = files[0];
+        let fileInfo = {};
+        let path = "public/image/" + Date.now().toString() + "_" + file.originalname;
+        fs.renameSync("./public/image/" + file.filename, path);
+        //获取文件基本信息
+        fileInfo.type = file.mimetype;
+        fileInfo.name = file.originalname;
+        fileInfo.size = file.size;
+        fileInfo.path = path;
+        res.json({
+            code: 200,
+            msg: "OK",
+            data: fileInfo,
+        });
+    }
+)
 
 // 通过笔记数据内noteUserId查找用户名
 router.get('/note/user', async (req, res) => {

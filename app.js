@@ -38,7 +38,7 @@ app.use(expressjwt({
     secret: 'aji',
     algorithms: ['HS256']
 }).unless({
-    path: ['/admin/user/login','/admin/user/register','/admin/user/codeImg']
+    path: ['/admin/user/login','/admin/user/register','/admin/user/codeImg', '/admin/user/upload']
 }));
 // 当token失效返回提示信息
 app.use(function (err, req, res, next) {
@@ -54,9 +54,10 @@ app.use(function (err, req, res, next) {
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html')
 })
-let userList = [{
+var userList = [{
     name:'默认群聊',
-    img:'https://w.wallhaven.cc/full/jx/wallhaven-jx3gxy.jpg'
+    img:'https://w.wallhaven.cc/full/jx/wallhaven-jx3gxy.jpg',
+    active: true,
 }] // 放在外面！！！，不然每次监听连接事件都会刷新没
 io.on('connection', function (socket) {
     // 每一个连接上来的用户，都会分配一个socket
@@ -72,7 +73,6 @@ io.on('connection', function (socket) {
         if(isLogin) {
             console.log('用户登录成功：', data);
             userList.push(data);
-            console.log(userList)
             io.sockets.sockets.name = data.name;
             callback(true);
             io.emit('login', userList)
@@ -90,13 +90,13 @@ io.on('connection', function (socket) {
     })
 
     // 监听私聊事件
-    socket.on('privateChat', data => {
-        // 找到对应的私聊对象
-        if(io.sockets.sockets.name === data.receiver) {
-            data.type = 'user'
-            io.to(socket.id).emit('updateChatMessageList', data)
-        }
-    })
+    socket.on('privateChat',data=>{
+        /* 找到对应的私聊对象 */
+        Object.keys(io.sockets.sockets).forEach(iss=>{
+            io.to(iss.id).emit('updateChatMessageList',data);
+        });
+    });
+
 
     // 给客户端发送消息
     socket.emit("welcome", "欢迎连接socket🍻")
@@ -110,7 +110,6 @@ io.on('connection', function (socket) {
             // 通知前端
             io.emit('login', userList)
         }
-        console.log(`用户：${io.sockets.sockets.name}，关闭连接`)
     })
 })
 http.listen(3000, function () {
