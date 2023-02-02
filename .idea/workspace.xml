@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/public/image/1675307007136_wallhaven-8xxqk2.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675307019589_wallhaven-zx771o.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675308264381_45846259.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
