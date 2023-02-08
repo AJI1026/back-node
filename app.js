@@ -15,7 +15,6 @@ const user = require('./routes/user')
 const cors = require('cors')
 // 开发环境设置，生产环境需要配置安全的参数
 app.use(cors())
-
 // 这里处理不需要token的接口
 const vertoken = require('./utils/token')
 const { expressjwt } = require("express-jwt");
@@ -113,7 +112,7 @@ io.on('connection', function (socket) {
     })
 })
 http.listen(3000, function () {
-    console.log('http://localhost:3000')
+    console.log('localhost:3000')
 })
 
 // 使用router配置路由

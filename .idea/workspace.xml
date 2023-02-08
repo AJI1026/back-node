@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="" />
+    <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675487221366_wallhaven-gpz95e.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675488865755_IMG_1906.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675488897802_IMG_1886.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675488961389_45846259.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675489025339_IMG_1867.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675489051306_IMG_1867.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675490251176_wallhaven-zyxq6j.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620531680_wallhaven-2km3vm.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620657614_wallhaven-0w3r9x.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620680040_wallhaven-01g2qv.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620706642_wallhaven-4gvd63.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620732342_wallhaven-d5gjqm.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620819112_wallhaven-zyxq6j.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620852617_wallhaven-1k6m8w.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620905371_wallhaven-8xxqk2.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620936194_Ouroboros-The-Black-Book-circle-lettering-watercolour.jpg.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675620987288_wallhaven-42ylvg.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/1675621008961_wallhaven-8xpwr1.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/user/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/book.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -118,7 +142,18 @@
       <workItem from="1675157514003" duration="17611000" />
       <workItem from="1675276432412" duration="1490000" />
       <workItem from="1675306090987" duration="329000" />
-      <workItem from="1675306753694" duration="1744000" />
+      <workItem from="1675306753694" duration="5383000" />
+      <workItem from="1675531351480" duration="1217000" />
+      <workItem from="1675534364109" duration="4932000" />
+      <workItem from="1675573339793" duration="3376000" />
+      <workItem from="1675582827547" duration="10676000" />
+      <workItem from="1675615504361" duration="452000" />
+      <workItem from="1675619750513" duration="1985000" />
+      <workItem from="1675660032272" duration="2057000" />
+      <workItem from="1675669839447" duration="5046000" />
+      <workItem from="1675826361755" duration="1217000" />
+      <workItem from="1675850134094" duration="652000" />
+      <workItem from="1675872251109" duration="1364000" />
     </task>
     <servers />
   </component>

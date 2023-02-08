@@ -354,8 +354,18 @@ router.put('/address/newAddress', async (req, res) => {
             mobilePhone: req.body.mobilePhone,
             remark: req.body.remark,
         })
+        res.send({ status: '200', message: '添加成功'})
+    } else {
+        await Address.insertMany({
+            city: req.body.city,
+            address: req.body.address,
+            defaultAddress: req.body.defaultAddress,
+            name: req.body.name,
+            mobilePhone: req.body.mobilePhone,
+            remark: req.body.remark,
+        })
+        res.send({ status: '200', message: '添加成功'})
     }
-    res.send({ status: '200', message: '添加成功'})
 })
 
 // 移除地址

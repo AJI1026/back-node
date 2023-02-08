@@ -31,6 +31,18 @@ const BookSchema = new mongoose.Schema({
     bookStatus: {
         type: Number,
     },
+    bookStore: {
+        type: Number,
+    },
+    bookCode: {
+        type: Number,
+    },
+    bookTime: {
+        type: String,
+    },
+    bookGrade: {
+        type: Number,
+    },
     detailImg: []
 }, {versionKey: false})
 const Book = mongoose.model('book', BookSchema)
