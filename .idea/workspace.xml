@@ -2,29 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02dfc2fc-2e2d-4722-87b2-1110e5eca46a" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675487221366_wallhaven-gpz95e.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675488865755_IMG_1906.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675488897802_IMG_1886.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675488961389_45846259.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675489025339_IMG_1867.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675489051306_IMG_1867.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675490251176_wallhaven-zyxq6j.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620531680_wallhaven-2km3vm.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620657614_wallhaven-0w3r9x.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620680040_wallhaven-01g2qv.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620706642_wallhaven-4gvd63.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620732342_wallhaven-d5gjqm.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620819112_wallhaven-zyxq6j.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620852617_wallhaven-1k6m8w.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620905371_wallhaven-8xxqk2.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620936194_Ouroboros-The-Black-Book-circle-lettering-watercolour.jpg.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675620987288_wallhaven-42ylvg.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/image/1675621008961_wallhaven-8xpwr1.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/book.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/book.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/image/1675837196030_wallhaven-1jor9g.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +133,8 @@
       <workItem from="1675826361755" duration="1217000" />
       <workItem from="1675850134094" duration="652000" />
       <workItem from="1675872251109" duration="1364000" />
+      <workItem from="1675905345729" duration="832000" />
+      <workItem from="1675928514993" duration="468000" />
     </task>
     <servers />
   </component>
